@@ -12,7 +12,7 @@ Development environment running in docker containers, deployable on any VM in Pu
 1. Clone the repository
 2. Deploy the environment
 ```
-docker-compose -f docker-compose.yml up --build
+docker-compose -f docker-compose.yml up --build -d
 ```
 ## Web UIs
 ### Airflow
