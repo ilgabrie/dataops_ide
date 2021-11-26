@@ -1,0 +1,90 @@
+x-airflow-common:
+  &airflow-common
+  build: "./airflow_docker"
+  depends_on:
+    - postgres-airflow
+  environment:
+    &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres-airflow/airflow
+    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
+  volumes:
+    - ./airflow_dags:/opt/airflow/dags
+    - ./airflow_logs:/opt/airflow/logs
+    - ./airflow_plugins:/opt/airflow/plugins
+
+services:
+  postgres-airflow:
+    image: postgres:13
+    container_name: airflow_postgres_db
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow-postgres-data-volume:/var/lib/postgresql/data
+
+  airflow-init-db:
+      <<: *airflow-common
+      command: db init
+
+  airflow-scheduler:
+    <<: *airflow-common
+    container_name: airflow_scheduler
+    command: scheduler
+    restart: on-failure
+    depends_on:
+      airflow-init-db:
+        condition: service_completed_successfully
+
+  airflow-webserver:
+    <<: *airflow-common
+    container_name: airflow_webserver
+    ports:
+      - 8080:8080
+    command: webserver
+    restart: on-failure
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_WWW_USER_PASSWORD: 'start123'
+      _AIRFLOW_DB_UPGRADE: 'true'
+      _AIRFLOW_WWW_USER_CREATE: 'true'
+    depends_on:
+      airflow-init-db:
+        condition: service_completed_successfully
+
+  postgres-mlflow:
+    image: postgres:13
+    container_name: mlflow_postgres_db
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflow
+    volumes:
+      - mlflow-postgres-data-volume:/var/lib/postgresql/data
+
+  mlflow:
+    build: './mlflow_docker'
+    container_name: mlflow_container
+    ports:
+      - 5000:5000
+    command: 'mlflow server --backend-store-uri postgresql+psycopg2://mlflow:mlflow@postgres-mlflow/mlflow --default-artifact-root ./mlruns --host 0.0.0.0 --port 5000'
+    volumes:
+      - mlflow-artifact-store:/mlruns
+    depends_on:
+      - postgres-mlflow
+
+  jupyterlab:
+    build: './jupyter_docker'
+    container_name: jupyterhub_container
+    command: "start-notebook.sh --NotebookApp.token=''"
+    ports:
+      - 8888:8888
+    volumes:
+      - ./notebooks:/home/jovyan/work
+
+volumes:
+  airflow-postgres-data-volume:
+  mlflow-postgres-data-volume:
+  mlflow-artifact-store:
