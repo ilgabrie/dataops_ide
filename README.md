@@ -1,4 +1,5 @@
 # MLOps development environment
+Development environment running in docker containers, deployable on any VM in Public Cloud (Azure, AWS, GCP) to develop data analytical workflows.
 ## Tools
 - Airflow
 - MLflow
