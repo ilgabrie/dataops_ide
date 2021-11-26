@@ -10,7 +10,12 @@ Development environment running in docker containers, deployable on any VM in Pu
 - Docker compose
 ## Usage
 1. Clone the repository
-2. Deploy the environment
+2. Create shared directories
+```
+mkdir airflow_dags airflow_logs airflow_plugins
+chown 50000:0 airflow_dags airflow_logs airflow_plugins
+```
+4. Deploy the environment
 ```
 docker-compose -f docker-compose.yml up --build -d
 ```
