@@ -14,6 +14,8 @@ Development environment running in docker containers, deployable on any VM in Pu
 ```
 mkdir airflow_dags airflow_logs airflow_plugins
 chown 50000:0 airflow_dags airflow_logs airflow_plugins
+mkdir notebooks
+chown 1000:0 notebooks/
 ```
 4. Deploy the environment
 ```
