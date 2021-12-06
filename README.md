@@ -5,17 +5,18 @@ Development environment running in docker containers, deployable on any VM in Pu
 - MLflow
 - Jupyter notebook
 - PostgresDB
+- Nginx webserver
 ## Requirements
 - Docker CE
 - Docker compose
 ## Usage
 1. Clone the repository
-2. Create shared directories
+2. Create & modify permissions on shared directories
 ```
-mkdir airflow_dags airflow_logs airflow_plugins
+mkdir airflow_logs
 chown 50000:0 airflow_dags airflow_logs airflow_plugins
-mkdir notebooks
 chown 1000:0 notebooks/
+chmod -R 777 shared_data
 ```
 4. Deploy the environment
 ```
