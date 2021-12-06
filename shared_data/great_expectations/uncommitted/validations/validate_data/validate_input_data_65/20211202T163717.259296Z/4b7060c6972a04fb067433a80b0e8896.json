@@ -1,0 +1,108 @@
+{
+  "evaluation_parameters": {},
+  "meta": {
+    "batch_kwargs": {
+      "datasource": "local_datasource",
+      "path": "https://ucfdataopstest.blob.core.windows.net/rawdata/CarPrice.csv?sp=r&st=2021-12-02T15:48:31Z&se=2021-12-02T23:48:31Z&spr=https&sv=2020-08-04&sr=b&sig=0aM70jzXPrQTI36Y3AjCVw3w3O2Q6eAfUrvsvbwaPhM%3D",
+      "reader_method": "read_csv"
+    },
+    "batch_markers": {
+      "ge_load_time": "20211202T163717.217818Z",
+      "pandas_data_fingerprint": "b7728a9e7e4f565ef162eede00e5ab05"
+    },
+    "batch_parameters": null,
+    "expectation_suite_meta": {
+      "great_expectations_version": "0.13.44"
+    },
+    "expectation_suite_name": "validate_data",
+    "great_expectations_version": "0.13.44",
+    "run_id": {
+      "run_name": "validate_input_data_65",
+      "run_time": "2021-12-02T16:37:17.259296+00:00"
+    },
+    "validation_time": "20211202T163717.263296Z"
+  },
+  "results": [
+    {
+      "exception_info": {
+        "exception_message": null,
+        "exception_traceback": null,
+        "raised_exception": false
+      },
+      "expectation_config": {
+        "expectation_context": {
+          "description": null
+        },
+        "expectation_type": "expect_column_distinct_values_to_be_in_set",
+        "ge_cloud_id": null,
+        "kwargs": {
+          "column": "doornumber",
+          "result_format": {
+            "result_format": "SUMMARY"
+          },
+          "value_set": [
+            "two",
+            "four"
+          ]
+        },
+        "meta": {}
+      },
+      "meta": {},
+      "result": {
+        "details": {
+          "value_counts": [
+            {
+              "count": 115,
+              "value": "four"
+            },
+            {
+              "count": 90,
+              "value": "two"
+            }
+          ]
+        },
+        "element_count": 205,
+        "missing_count": null,
+        "missing_percent": null,
+        "observed_value": [
+          "four",
+          "two"
+        ]
+      },
+      "success": true
+    },
+    {
+      "exception_info": {
+        "exception_message": null,
+        "exception_traceback": null,
+        "raised_exception": false
+      },
+      "expectation_config": {
+        "expectation_context": {
+          "description": null
+        },
+        "expectation_type": "expect_table_column_count_to_equal",
+        "ge_cloud_id": null,
+        "kwargs": {
+          "result_format": {
+            "result_format": "SUMMARY"
+          },
+          "value": 26
+        },
+        "meta": {}
+      },
+      "meta": {},
+      "result": {
+        "observed_value": 26
+      },
+      "success": true
+    }
+  ],
+  "statistics": {
+    "evaluated_expectations": 2,
+    "success_percent": 100.0,
+    "successful_expectations": 2,
+    "unsuccessful_expectations": 0
+  },
+  "success": true
+}

@@ -1,0 +1,42 @@
+{
+  "data_asset_type": null,
+  "expectation_suite_name": "validate_data",
+  "expectations": [
+    {
+      "expectation_context": {
+        "description": null
+      },
+      "expectation_type": "expect_column_distinct_values_to_be_in_set",
+      "ge_cloud_id": null,
+      "kwargs": {
+        "column": "doornumber",
+        "result_format": {
+          "result_format": "COMPLETE"
+        },
+        "value_set": [
+          "two",
+          "four"
+        ]
+      },
+      "meta": {}
+    },
+    {
+      "expectation_context": {
+        "description": null
+      },
+      "expectation_type": "expect_table_column_count_to_equal",
+      "ge_cloud_id": null,
+      "kwargs": {
+        "result_format": {
+          "result_format": "COMPLETE"
+        },
+        "value": 26
+      },
+      "meta": {}
+    }
+  ],
+  "ge_cloud_id": null,
+  "meta": {
+    "great_expectations_version": "0.13.44"
+  }
+}

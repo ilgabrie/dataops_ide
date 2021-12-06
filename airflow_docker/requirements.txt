@@ -1,3 +1,5 @@
 plyvel
 great-expectations
 mlflow
+gcsfs
+sklearn

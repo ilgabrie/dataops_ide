@@ -13,6 +13,9 @@ x-airflow-common:
     - ./airflow_dags:/opt/airflow/dags
     - ./airflow_logs:/opt/airflow/logs
     - ./airflow_plugins:/opt/airflow/plugins
+    - ./notebooks/great_expectations:/opt/airflow/great_expectations
+    - ./shared_data:/tmp/shared_data
+    - ./shared_data/mlruns:/opt/airflow/mlruns
 
 services:
   postgres-airflow:
@@ -71,7 +74,8 @@ services:
       - 5000:5000
     command: 'mlflow server --backend-store-uri postgresql+psycopg2://mlflow:mlflow@postgres-mlflow/mlflow --default-artifact-root ./mlruns --host 0.0.0.0 --port 5000'
     volumes:
-      - mlflow-artifact-store:/mlruns
+      - ./shared_data/mlruns:/mlruns
+      - ./shared_data:/tmp/shared_data
     depends_on:
       - postgres-mlflow
 
@@ -83,6 +87,15 @@ services:
       - 8888:8888
     volumes:
       - ./notebooks:/home/jovyan/work
+      - ./shared_data:/tmp/shared_data
+      - ./shared_data/mlruns:/home/jovyan/work/mlruns
+
+  data-docs:
+    image: nginx
+    ports:
+      - 8880:80
+    volumes:
+      - ./shared_data/great_expectations/uncommitted/data_docs/local_site:/usr/share/nginx/html
 
 volumes:
   airflow-postgres-data-volume:
